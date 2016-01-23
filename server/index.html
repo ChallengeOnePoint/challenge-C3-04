@@ -2,9 +2,11 @@
 <script>
   var socket = io.connect('http://localhost:3000');
   socket.on('connect', function (data) {
-    socket.emit('hello', { username: 'ozakifumbari' });
+    socket.emit('hello', { email: 'ozakifumbari' });
   });
-
+  socket.on('load', function (data) {
+    console.log('load', data);
+  });
   socket.on('login', function (data) {
     console.log('login', data);
   });
