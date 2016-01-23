@@ -135,8 +135,8 @@ function AppController (PostIt, User) {
   this.PostIt  = PostIt;
 
   this.update  = function (postIt) {
-    console.log('a', postIt);
     self.PostIt.update(postIt);
+    self.PostIt.release(postIt);
   };
 }
 
