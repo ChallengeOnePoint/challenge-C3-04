@@ -34,11 +34,13 @@ function setupSocketIo (PostIt, User) {
   }
 
   function load (data) {
-    PostIt.postIts.length = 0;
-    PostIt.postIts.push.apply(PostIt.postIts, data.postIts);
+    angular.forEach(data.postIts, function (postIt) {
+      PostIt.postIts[postIt.id] = postIt;
+    });
 
-    User.users.length = 0;
-    User.users.push.apply(User.users, data.users);
+    angular.forEach(data.users, function (user) {
+      User.users[user.email] = user;
+    });
   }
 }
 

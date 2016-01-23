@@ -7,10 +7,21 @@ import Session from './session';
 
 server.listen(3000);
 
+let postIdCursor = 0;
 let serverData = {
   sessions: [],
   postIts: [],
-  io: io
+  io: io,
+  getPostIt: id => {
+    for (let i = 0, postIt; postIt = serverData.postIts[i]; i += 1) {
+      if (postIt.id === id) {
+        return postIt;
+      }
+    }
+
+    return null;
+  },
+  nextId: () => postIdCursor++
 };
 
 app.use(express.static('public'));
