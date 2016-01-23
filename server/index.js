@@ -1,17 +1,17 @@
-import express from 'express';
-import http from 'http';
-import socketIo from 'socket.io';
+var app = require('express')();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 
-const app = express();
-const server = http.Server(app);
-const io = socketIo(http);
+import Session from './session';
 
-app.use(express.static('public'));
+server.listen(3000);
 
-io.on('connection', function(socket){
-  console.log('a user connected');
+let serverData = {sessions: []};
+
+app.get('/', function (req, res) {
+  res.sendfile(__dirname + '/index.html');
 });
 
-server.listen(3000, function(){
-  console.log('listening on *:3000');
+io.on('connection', function (socket) {
+  serverData.sessions.push(new Session(socket, serverData));
 });
