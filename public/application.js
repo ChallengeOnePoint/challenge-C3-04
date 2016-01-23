@@ -110,11 +110,23 @@ AppController.prototype.login = function () {
   socket.emit('hello', { email: this.email });
   this.user = { email: this.email };
   this.user = this.email;
-}
+};
 
 AppController.prototype.create = function () {
   this.PostIt.create();
-}
+};
+
+AppController.prototype.take = function (postIt) {
+  this.PostIt.take(postIt);
+};
+
+AppController.prototype.release = function (postIt) {
+  this.PostIt.release(postIt);
+};
+
+AppController.prototype.update = function (postit) {
+  this.PostIt.update(postit);
+};
 
 function postIt() {
   return {
