@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <title>Post-Hits</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+    <link rel="stylesheet" href="/application.css">
+  </head>
+  <body ng-controller="AppController as app">
+    <div class="menu pure-menu pure-menu-horizontal">
+      <a href="/" class="menu-heading pure-menu-heading">Post-Hits</a>
+      <ul class="menu-list pure-menu-list">
+        <li class="pure-menu-item">
+          <a href="/" class="menu-link pure-menu-link">Sign out</a>
+        </li>
+      </ul>
+    </div>
+
+    <post-it
+      ng-repeat="postIt in app.postIts track by $index">
+    </post-it>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular.min.js"></script>
+    <script src="/application.js"></script>
+  </body>
+</html>
