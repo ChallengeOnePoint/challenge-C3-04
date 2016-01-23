@@ -14,7 +14,7 @@ let serverData = {
   io: io,
   getPostIt: id => {
     for (let i = 0, postIt; postIt = serverData.postIts[i]; i += 1) {
-      if (postIt.id === id || postIt.takenBy === id) {
+      if (postIt.id === id || postIt.user === id) {
         return postIt;
       }
     }
