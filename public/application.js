@@ -14,12 +14,24 @@ angular
   .controller('AppController', AppController);
 
 function setupSocketIo (PostIt, User) {
-  socket.on('take', PostIt.take);
-  socket.on('release', PostIt.release);
-  socket.on('update', PostIt.update);
+  socket.on('take', takePostIt);
+  socket.on('release', releasePostIt);
+  socket.on('update', updatePostIt);
   socket.on('load', load);
   socket.on('login', User.login);
   socket.on('logout', User.logout);
+
+  function takePostIt (postIt) {
+    PostIt.take(postIt, true);
+  }
+
+  function releasePostIt (postIt) {
+    PostIt.release(postIt, true);
+  }
+
+  function updatePostIt (postIt) {
+    PostIt.update(postIt, true);
+  }
 
   function load (data) {
     PostIt.postIts.length = 0;
@@ -45,26 +57,26 @@ function postItFactory () {
     socket.emit('create');
   }
 
-  function take (postIt, isLocal) {
+  function take (postIt, isRemote) {
     postIts[postIt.id].taken = true;
 
-    if (isLocal) {
+    if (!isRemote) {
       socket.emit('take', postIt);
     }
   }
 
-  function release (postIt, isLocal) {
+  function release (postIt, isRemote) {
     delete postIts[postIt.id].taken;
 
-    if (isLocal) {
+    if (!isRemote) {
       socket.emit('release', postIt);
     }
   }
 
-  function update (postIt, isLocal) {
+  function update (postIt, isRemote) {
     postIts[postIt.id] = postIt;
 
-    if (isLocal) {
+    if (!isRemote) {
       socket.emit('update', postIt);
     }
   }
