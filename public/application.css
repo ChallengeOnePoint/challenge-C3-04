@@ -1,6 +1,7 @@
 body {
   background: #ffe;
   line-height: 1.7em;
+  font-family: 'Roboto';
 }
 
 .ng-cloak {
