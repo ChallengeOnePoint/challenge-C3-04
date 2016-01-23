@@ -104,7 +104,7 @@ function postItFactory () {
   }
 }
 
-function userFactory () {
+function userFactory ($rootScope) {
   var users = {};
 
   return {
@@ -114,11 +114,15 @@ function userFactory () {
   };
 
   function login (user) {
-    users[user.email] = user;
+    $rootScope.$evalAsync(function () {
+      users[user.email] = user;
+    });
   }
 
   function logout (user) {
-    delete users[user.email];
+    $rootScope.$evalAsync(function () {
+      delete users[user.email];
+    });
   }
 }
 
