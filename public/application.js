@@ -15,6 +15,7 @@ function setupSocketIo ($rootScope, PostIt, User) {
   socket.on('take', takePostIt);
   socket.on('release', releasePostIt);
   socket.on('update', updatePostIt);
+  socket.on('remove', removePostIt);
   socket.on('load', load);
   socket.on('login', User.login);
   socket.on('logout', User.logout);
@@ -37,6 +38,12 @@ function setupSocketIo ($rootScope, PostIt, User) {
     });
   }
 
+  function removePostIt (postIt) {
+    $rootScope.$evalAsync(function () {
+      PostIt.remove(postIt, true);
+    });
+  }
+
   function load (data) {
     angular.forEach(data.postIts, function (postIt) {
       PostIt.postIts[postIt.id] = postIt;
@@ -56,7 +63,8 @@ function postItFactory () {
     create: create,
     take: take,
     release: release,
-    update: update
+    update: update,
+    remove: remove
   };
 
   function create () {
@@ -84,6 +92,14 @@ function postItFactory () {
 
     if (!isRemote) {
       socket.emit('update', postIt);
+    }
+  }
+
+  function remove (postIt, isRemote) {
+    delete postIts[postIt.id];
+
+    if (!isRemote) {
+      socket.emit('remove', postIt);
     }
   }
 }
