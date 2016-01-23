@@ -6,11 +6,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/application.css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
   </head>
   <body ng-controller="AppController as app">
     <div class="menu pure-menu pure-menu-horizontal">
       <a href="/" class="menu-heading pure-menu-heading">Post-Hits</a>
-      <a href="" class="fa fa-plus create-postit" ng-click="app.create()"></a>
+      <a ng-show="app.user" class="fa fa-plus create-postit" ng-click="app.create()"></a>
       <ul class="menu-list pure-menu-list ng-cloak" ng-if="app.user">
         <li class="pure-menu-item">
           <a href="/" class="menu-link pure-menu-link">Sign out ({{ app.user }})</a>
