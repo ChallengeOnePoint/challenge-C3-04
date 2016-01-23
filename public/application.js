@@ -123,12 +123,14 @@ function userFactory () {
 }
 
 function AppController (PostIt, User) {
+  this.email   = localStorage.getItem('email') || '';
   this.postIts = PostIt.postIts;
   this.users   = User.users;
   this.PostIt  = PostIt;
 }
 
 AppController.prototype.login = function () {
+  localStorage.setItem('email', this.email);
   socket.emit('hello', { email: this.email });
   this.user = { email: this.email };
   this.user = this.email;
