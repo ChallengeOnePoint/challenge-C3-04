@@ -1,6 +1,6 @@
 'use strict';
 
-var socket = io.connect('http://localhost:3000');
+var socket = io.connect('http://' + window.location.hostname + ':3000');
 
 angular
   .module('app', [])
