@@ -14,11 +14,11 @@
         </li>
       </ul>
     </div>
-    <div class="popup-name">
-      <form ng-submit="" class="pure-form name-form">
-        <div class="name-label">Name</div>
-        <input type="text" ng-model="app.name">
-        <button class="pure-button pure-button-primary login-button">Login</button>
+    <div class="popup-email" ng-if="!app.user">
+      <form class="pure-form email-form">
+        <div class="email-label">E-mail</div>
+        <input type="email" ng-model="app.email">
+        <button class="pure-button pure-button-primary login-button" ng-click="app.login()">Login</button>
       </form>
     </div>
     <post-it

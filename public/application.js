@@ -104,3 +104,8 @@ function AppController (PostIt, User) {
   this.postIts = PostIt.postIts;
   this.users   = User.users;
 }
+
+AppController.prototype.login = function () {
+  socket.emit('hello', { email: this.email });
+  this.user = { email: this.email };
+}
