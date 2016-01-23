@@ -1,4 +1,5 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
@@ -11,7 +12,9 @@ let serverData = {
   io: io
 };
 
-app.get('/', function (req, res) {
+app.use(express.static('public'));
+
+app.get('/bite', function (req, res) {
   res.sendfile(__dirname + '/index.html');
 });
 
