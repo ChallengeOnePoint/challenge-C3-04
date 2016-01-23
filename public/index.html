@@ -9,7 +9,7 @@
   <body ng-controller="AppController as app">
     <div class="menu pure-menu pure-menu-horizontal">
       <a href="/" class="menu-heading pure-menu-heading">Post-Hits</a>
-      <ul class="menu-list pure-menu-list" ng-if="app.user">
+      <ul class="menu-list pure-menu-list ng-cloak" ng-if="app.user">
         <li class="pure-menu-item">
           <a href="/" class="menu-link pure-menu-link">Sign out ({{ app.user }})</a>
         </li>
