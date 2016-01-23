@@ -63,7 +63,7 @@ export default class Session {
       postIt.takenBy = this.email;
 
       this.server.io.sockets.emit('take', {
-        postItId: postIt.id,
+        id: postIt.id,
         takenBy: this.email
       });
     }
@@ -76,7 +76,7 @@ export default class Session {
       postIt.takenBy = null;
 
       this.server.io.sockets.emit('release', {
-        postItId: postIt.id
+        id: postIt.id
       });
     }
   }
