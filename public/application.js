@@ -103,6 +103,10 @@ function userFactory () {
 function AppController (PostIt, User) {
   this.postIts = PostIt.postIts;
   this.users   = User.users;
+
+  function create () {
+    PostIt.create();
+  }
 }
 
 AppController.prototype.login = function () {
@@ -111,11 +115,16 @@ AppController.prototype.login = function () {
   this.user = this.email;
 }
 
+
+
 function postIt() {
   return {
     restrict: 'E',
     scope: {},
-    template: 'post-it.html',
+    templateUrl: 'post-it.html',
+    scope: {
+      data: '='
+    },
     controller: function PostItController($scope, $element, $attrs) {
       $scope.title = 'Totoa';
       $scope.description = 'The current description';
