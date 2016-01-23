@@ -11,7 +11,9 @@ angular
   .run(setupSocketIo)
   .factory('PostIt', postItFactory)
   .factory('User', userFactory)
-  .controller('AppController', AppController);
+  .controller('AppController', AppController)
+  .directive('postIt', postIt)
+  .directive('movable', movable);
 
 function setupSocketIo (PostIt, User) {
   socket.on('take', takePostIt);
@@ -103,11 +105,75 @@ function userFactory () {
 }
 
 function AppController (PostIt, User) {
-  this.postIts = PostIt.postIts;
+  // this.postIts = PostIt.postIts;
+  this.postIts = [1, 2];
   this.users   = User.users;
 }
 
 AppController.prototype.login = function () {
   socket.emit('hello', { email: this.email });
   this.user = { email: this.email };
+
+function postIt() {
+  return {
+    restrict: 'E',
+    scope: {},
+    template: [
+      '<div class="post-it" movable>',
+        '<i class="fa fa-pencil-square-o" ng-click="edit()"  ng-show="!isEditing"></i>',
+        '<i class="fa fa-floppy-o" ng-show="isEditing" ng-click="isEditing = !isEditing;"></i>',
+        '<h2 ng-bind="title"></h2>',
+        '<p ng-bind="description" ng-show="!isEditing"></p>',
+        '<textarea ng-model="description" ng-show="isEditing"></textarea>',
+      '</div>'
+    ].join(''),
+    controller: function PostItController($scope, $element, $attrs) {
+      $scope.title = 'Totoa';
+      $scope.description = 'The current description';
+      console.log('Post It controller instanciated', $element);
+      $scope.edit = function() {
+        $scope.isEditing = !$scope.isEditing;
+      };
+      $scope.isEditing = false;
+    }
+  };
+}
+
+function movable($document) {
+  return {
+    restrict: 'A',
+    link: function($scope, $element, $attr) {
+      var startX = 0, startY = 0, x = 0, y = 0;
+
+      $element.css({
+       position: 'relative'
+      });
+
+      $element.on('mousedown', function(event) {
+        if (event.toElement.nodeName !== 'TEXTAREA') {
+          event.preventDefault();
+        }
+        startX = event.pageX - x;
+        startY = event.pageY - y;
+        $document.on('mousemove', mousemove);
+        $document.on('mouseup', mouseup);
+      });
+
+      function mousemove(event) {
+        if (event.toElement.nodeName !== 'TEXTAREA') {
+          y = event.pageY - startY;
+          x = event.pageX - startX;
+          $element.css({
+            top: y + 'px',
+            left:  x + 'px'
+          });
+        }
+      }
+
+      function mouseup() {
+        $document.off('mousemove', mousemove);
+        $document.off('mouseup', mouseup);
+      }
+    }
+  };
 }
