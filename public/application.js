@@ -182,6 +182,7 @@ function postIt(PostIt) {
       console.log($scope.data, $scope.updateCb);
       $scope.edit = function() {
         $scope.isEditing = !$scope.isEditing;
+        PostIt.take($scope.data);
       };
 
       $scope.save = function() {
