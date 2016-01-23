@@ -1,0 +1,34 @@
+{
+  "name": "challenge-c3-04",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChallengeOnePoint/challenge-C3-04.git"
+  },
+  "author": "Pierre BEAUJEU <pierre.beaujeu@rednet.io> (https://github.com/Oza94)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ChallengeOnePoint/challenge-C3-04/issues"
+  },
+  "homepage": "https://github.com/ChallengeOnePoint/challenge-C3-04#readme",
+  "dependencies": {
+    "angular": "^1.4.9",
+    "bluebird": "^3.1.1",
+    "socket.io": "^1.4.4"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-stage-2": "^6.3.13",
+    "babel-register": "^6.4.3",
+    "babelify": "^7.2.0",
+    "browserify": "^13.0.0",
+    "errorify": "^0.3.1",
+    "gulp": "^3.9.0",
+    "watchify": "^3.7.0"
+  }
+}
