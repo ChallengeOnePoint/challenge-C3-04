@@ -104,7 +104,7 @@ function postItFactory () {
   }
 }
 
-function userFactory () {
+function userFactory ($rootScope) {
   var users = {};
 
   return {
@@ -114,17 +114,22 @@ function userFactory () {
   };
 
   function login (user) {
-    users[user.email] = user;
+    $rootScope.$evalAsync(function () {
+      users[user.email] = user;
+    });
   }
 
   function logout (user) {
-    delete users[user.email];
+    $rootScope.$evalAsync(function () {
+      delete users[user.email];
+    });
   }
 }
 
 function AppController (PostIt, User) {
-  var self = this;
+  var self     = this;
 
+  this.email   = localStorage.getItem('email') || '';
   this.postIts = PostIt.postIts;
   this.users   = User.users;
   this.PostIt  = PostIt;
@@ -136,6 +141,7 @@ function AppController (PostIt, User) {
 }
 
 AppController.prototype.login = function () {
+  localStorage.setItem('email', this.email);
   socket.emit('hello', { email: this.email });
   this.user = { email: this.email };
   this.user = this.email;
