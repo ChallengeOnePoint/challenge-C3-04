@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="app">
   <head>
+    <meta charset="utf-8">
     <title>Post-Hits</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -9,13 +10,19 @@
   <body ng-controller="AppController as app">
     <div class="menu pure-menu pure-menu-horizontal">
       <a href="/" class="menu-heading pure-menu-heading">Post-Hits</a>
-      <ul class="menu-list pure-menu-list">
+      <ul class="menu-list pure-menu-list" ng-if="app.user">
         <li class="pure-menu-item">
-          <a href="/" class="menu-link pure-menu-link">Sign out</a>
+          <a href="/" class="menu-link pure-menu-link">Sign out ({{ app.user }})</a>
         </li>
       </ul>
     </div>
-
+    <div class="popup-name">
+      <form ng-submit="" class="pure-form name-form">
+        <div class="name-label">Name</div>
+        <input type="text" ng-model="app.name">
+        <button class="pure-button pure-button-primary login-button">Login</button>
+      </form>
+    </div>
     <post-it
       ng-repeat="postIt in app.postIts track by $index">
     </post-it>

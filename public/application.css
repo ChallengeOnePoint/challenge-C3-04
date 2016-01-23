@@ -51,3 +51,27 @@ body {
   width: 98%;
   resize: none;
 }
+
+.popup-name {
+  padding: 10px;
+  box-shadow: 0px 0px 5px 0px #656565;
+  border-radius: 3px;
+  background-color: #fff;
+  width: 300px;
+  height: 150px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-left: -150px;
+  margin-top:-75px;
+}
+
+.name-form input {
+  width: 100%;
+}
+
+.login-button {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
