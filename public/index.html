@@ -35,7 +35,9 @@
     </ul>
 
     <post-it
-      ng-repeat="postIt in app.postIts track by $index">
+      ng-repeat="postIt in app.postIts track by $index"
+      data="postIt"
+      update-cb="app.update">
     </post-it>
 
     <script src="/socket.io/socket.io.js"></script>
@@ -45,7 +47,7 @@
     <script type="text/ng-template" id="post-it.html">
       <div class="post-it" movable>
         <i class="fa fa-pencil-square-o" ng-click="edit()" ng-show="!isEditing"></i>
-        <i class="fa fa-floppy-o" ng-show="isEditing" ng-click="isEditing = !isEditing;"></i>
+        <i class="fa fa-floppy-o" ng-show="isEditing" ng-click="isEditing = !isEditing; save()"></i>
         <h2 ng-bind="data.title"></h2>
         <p ng-bind="data.description" ng-show="!isEditing"></p>
         <textarea ng-model="data.description" ng-show="isEditing"></textarea>

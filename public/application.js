@@ -107,9 +107,16 @@ function userFactory () {
 }
 
 function AppController (PostIt, User) {
+  var self = this;
+
   this.postIts = PostIt.postIts;
   this.users   = User.users;
   this.PostIt  = PostIt;
+
+  this.update  = function (postIt) {
+    console.log('a', postIt);
+    self.PostIt.update(postIt);
+  };
 }
 
 AppController.prototype.login = function () {
@@ -130,23 +137,23 @@ AppController.prototype.release = function (postIt) {
   this.PostIt.release(postIt);
 };
 
-AppController.prototype.update = function (postit) {
-  this.PostIt.update(postit);
-};
-
 function postIt() {
   return {
     restrict: 'E',
     scope: {},
     templateUrl: 'post-it.html',
     scope: {
-      data: '='
+      data: '=',
+      updateCb: '&'
     },
     controller: function PostItController($scope, $element, $attrs) {
-      $scope.title = 'Totoa';
-      $scope.description = 'The current description';
+      console.log($scope.data, $scope.updateCb);
       $scope.edit = function() {
         $scope.isEditing = !$scope.isEditing;
+      };
+
+      $scope.save = function() {
+        $scope.updateCb()($scope.data);
       };
       $scope.isEditing = false;
     }
