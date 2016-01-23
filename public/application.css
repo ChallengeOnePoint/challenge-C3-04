@@ -122,3 +122,8 @@ body {
   display: inline-block;
   width: 0;
 }
+
+.create-postit, .create-postit:visited {
+  color: #fff;
+  text-decoration: none;
+}
