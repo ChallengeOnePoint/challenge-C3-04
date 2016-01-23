@@ -83,9 +83,7 @@ export default class Session {
       let index = this.server.postIts.indexOf(postIt);
       this.server.postIts.splice(index, 1);
 
-      this.server.io.sockets.emit('remove', {
-        id: postIt.id
-      });
+      this.server.io.sockets.emit('remove', postIt);
     } else if (!postIt) {
       console.error(this.name, '-', 'post id does not exists : ', postIt.id);
     }
@@ -97,10 +95,7 @@ export default class Session {
       console.log(this.name, '-', 'take post it', postIt.id);
       postIt.user = this.email;
 
-      this.server.io.sockets.emit('take', {
-        id: postIt.id,
-        user: this.email
-      });
+      this.server.io.sockets.emit('take', postIt);
     } else if (!postIt) {
       console.error(this.name, '-', 'post id does not exists : ', postIt.id);
     }
@@ -112,9 +107,7 @@ export default class Session {
       console.log(this.name, '-', 'release post it', postIt.id);
       postIt.user = null;
 
-      this.server.io.sockets.emit('release', {
-        id: postIt.id
-      });
+      this.server.io.sockets.emit('release', postIt);
     } else if (!postIt) {
       console.error(this.name, '-', 'post id does not exists : ', postIt.id);
     }
