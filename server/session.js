@@ -10,6 +10,7 @@ export default class Session {
     this.onTake = this.onTake.bind(this);
     this.onRelease = this.onRelease.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
+    this.onRemove = this.onRemove.bind(this);
 
     let {address} = socket.handshake;
 
@@ -26,6 +27,7 @@ export default class Session {
     this.socket.on('take', this.onTake);
     this.socket.on('release', this.onRelease);
     this.socket.on('update', this.onUpdate);
+    this.socket.on('remove', this.onRemove);
 
     console.log(this.name, '-', 'new connection');
   }
@@ -71,6 +73,22 @@ export default class Session {
     this.server.postIts.push(postIt);
 
     this.server.io.sockets.emit('update', postIt);
+  }
+  onRemove(data) {
+    let postIt = this.server.getPostIt(data.id);
+
+    if (postIt && (!postIt.user || postIt.user === this.email)) {
+      console.log(this.name, '-', 'remove post it', postIt.id);
+
+      let index = this.server.postIts.indexOf(postIt);
+      this.server.postIts.splice(index, 1);
+
+      this.server.io.sockets.emit('remove', {
+        id: postIt.id
+      });
+    } else if (!postIt) {
+      console.error(this.name, '-', 'post id does not exists : ', postIt.id);
+    }
   }
   onTake(data) {
     let postIt = this.server.getPostIt(data.id);

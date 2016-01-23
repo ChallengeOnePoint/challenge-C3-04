@@ -17,9 +17,8 @@
     console.log('update', data);
     setTimeout(function () {
       console.log('foo');
-      socket.emit('update', {
-        id: data.id,
-        description: data.description + 'a'
+      socket.emit('remove', {
+        id: data.id
       });
     }, 100);
   });
