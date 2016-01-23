@@ -1,0 +1,28 @@
+body {
+  background: #ffe;
+  line-height: 1.7em;
+}
+
+.menu {
+  background: #2c3e50;
+  padding: .5em;
+}
+
+.menu-heading {
+  color: #fff;
+  font-weight: 400;
+  font-size: 1.2em;
+}
+
+.menu-list {
+  float: right;
+}
+
+.menu-link {
+  color: #fff;
+}
+
+.menu-link:hover {
+  color: #fff;
+  background: transparent;
+}
