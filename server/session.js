@@ -1,4 +1,6 @@
 
+import gravatar from 'gravatar';
+
 export default class Session {
   constructor(socket, server) {
     this.onClose = this.onClose.bind(this);
@@ -12,6 +14,7 @@ export default class Session {
     let {address} = socket.handshake;
 
     this.name = `${address}`;
+    this.avatar = null;
     this.email = null;
     this.server = server;
     this.socket = socket;
@@ -32,17 +35,24 @@ export default class Session {
     // send to the user the initial state
     let users = this.server.sessions
       .filter(session => !!session.email)
-      .map(session => {email: session.email});
+      .map(session => ({
+        email: session.email,
+        avatar: session.avatar
+      }));
 
     this.socket.emit('load', {
       postIts: this.server.postIts,
       users: users
     });
 
+    this.avatar = gravatar.url(data.email, {s: '100'});
     this.email = data.email;
 
     // then broadcast login
-    this.server.io.sockets.emit('login', {email: data.email});
+    this.server.io.sockets.emit('login', {
+      email: data.email,
+      avatar: this.avatar
+    });
   }
   onCreate() {
     console.log(this.name, '-', 'create post it');
