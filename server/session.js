@@ -45,7 +45,7 @@ export default class Session {
       users: users
     });
 
-    this.avatar = gravatar.url(data.email, {s: '100'});
+    this.avatar = gravatar.url(data.email, {s: '80'});
     this.email = data.email;
 
     // then broadcast login
@@ -121,6 +121,12 @@ export default class Session {
     this.dispose();
   }
   dispose() {
+    let postIt = this.server.getPostIt(this.email);
+
+    if (postIt) {
+      postIt.takenBy = null;
+    }
+
     let index = this.server.sessions.indexOf(this);
 
     if (index !== -1) {
