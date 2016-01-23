@@ -8,6 +8,7 @@ server.listen(3000);
 
 let serverData = {
   sessions: [],
+  postIts: [],
   io: io
 };
 
