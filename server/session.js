@@ -36,6 +36,10 @@ export default class Session {
 
     if (index !== -1) {
       this.server.sessions.splice(index, 1);
+
+      if (this.username) {
+        this.server.io.sockets.emit('logout', {username: this.username});
+      }
     }
   }
 }
