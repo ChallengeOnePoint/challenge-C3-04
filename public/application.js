@@ -97,7 +97,7 @@ function postItFactory () {
 
   function remove (postIt, isRemote) {
     delete postIts[postIt.id];
-
+    console.log(postIts);
     if (!isRemote) {
       socket.emit('remove', postIt);
     }
@@ -159,7 +159,17 @@ AppController.prototype.release = function (postIt) {
   this.PostIt.release(postIt);
 };
 
-function postIt() {
+AppController.prototype.update = function (postit) {
+  this.PostIt.update(postit);
+};
+
+AppController.prototype.remove = function (postit) {
+  this.PostIt.remove(postit);
+};
+
+
+function postIt(PostIt) {
+
   return {
     restrict: 'E',
     scope: {},
@@ -176,6 +186,11 @@ function postIt() {
 
       $scope.save = function() {
         $scope.updateCb()($scope.data);
+      };
+
+      $scope.remove = function () {
+        PostIt.remove($scope.data);
+        $element.html('');
       };
       $scope.isEditing = false;
     }
