@@ -103,10 +103,7 @@ function userFactory () {
 function AppController (PostIt, User) {
   this.postIts = PostIt.postIts;
   this.users   = User.users;
-
-  function create () {
-    PostIt.create();
-  }
+  this.PostIt = PostIt;
 }
 
 AppController.prototype.login = function () {
@@ -115,7 +112,9 @@ AppController.prototype.login = function () {
   this.user = this.email;
 }
 
-
+AppController.prototype.create = function () {
+  this.PostIt.create();
+}
 
 function postIt() {
   return {
@@ -128,7 +127,6 @@ function postIt() {
     controller: function PostItController($scope, $element, $attrs) {
       $scope.title = 'Totoa';
       $scope.description = 'The current description';
-      console.log('Post It controller instanciated', $element);
       $scope.edit = function() {
         $scope.isEditing = !$scope.isEditing;
       };
