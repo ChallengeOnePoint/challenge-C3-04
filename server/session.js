@@ -57,7 +57,7 @@ export default class Session {
   onCreate(data) {
     console.log(this.name, '-', 'create post it');
     data = data || {};
-    
+
     let postIt = {
       color: data.color || 'lightgrey',
       x: data.x || 0,
@@ -65,7 +65,7 @@ export default class Session {
       id: this.server.nextId(),
       title: '',
       description: '',
-      takenBy: this.email
+      user: this.email
     };
 
     this.server.postIts.push(postIt);
@@ -75,13 +75,13 @@ export default class Session {
   onTake(data) {
     let postIt = this.server.getPostIt(data.id);
 
-    if (postIt && !postIt.takenBy) {
+    if (postIt && !postIt.user) {
       console.log(this.name, '-', 'take post it', postIt.id);
-      postIt.takenBy = this.email;
+      postIt.user = this.email;
 
       this.server.io.sockets.emit('take', {
         id: postIt.id,
-        takenBy: this.email
+        user: this.email
       });
     } else if (!postIt) {
       console.error(this.name, '-', 'post id does not exists : ', postIt.id);
@@ -90,9 +90,9 @@ export default class Session {
   onRelease(data) {
     let postIt = this.server.getPostIt(data.id);
 
-    if (postIt && postIt.takenBy) {
+    if (postIt && postIt.user) {
       console.log(this.name, '-', 'release post it', postIt.id);
-      postIt.takenBy = null;
+      postIt.user = null;
 
       this.server.io.sockets.emit('release', {
         id: postIt.id
@@ -104,15 +104,15 @@ export default class Session {
   onUpdate(data) {
     let postIt = this.server.getPostIt(data.id);
 
-    if (postIt && postIt.takenBy === this.email) {
+    if (postIt && postIt.user === this.email) {
       console.log(this.name, '-', 'update post it', postIt.id);
       postIt.title = data.title;
       postIt.description = data.description;
 
       this.server.io.sockets.emit('update', postIt);
-    } else if (postIt && postIt.takenBy !== this.email) {
+    } else if (postIt && postIt.user !== this.email) {
       console.error(this.name, '-', 'post it already taken by : ',
-        postIt.takenBy);
+        postIt.user);
     } else if (!postIt) {
       console.error(this.name, '-', 'post id does not exists : ', data.id);
     }
@@ -129,7 +129,7 @@ export default class Session {
     let postIt = this.server.getPostIt(this.email);
 
     if (postIt) {
-      postIt.takenBy = null;
+      postIt.user = null;
     }
 
     let index = this.server.sessions.indexOf(this);
