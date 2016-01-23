@@ -55,7 +55,7 @@ export default class Session {
     });
   }
   onCreate(data) {
-    console.log(this.name, '-', 'create post it');
+    console.log(this.name, '-', 'create post it', this.email);
     data = data || {};
 
     let postIt = {
@@ -63,8 +63,8 @@ export default class Session {
       x: data.x || 0,
       y: data.y || 0,
       id: this.server.nextId(),
-      title: '',
-      description: '',
+      title: 'New Post-It',
+      description: 'Double click to edit',
       user: this.email
     };
 
