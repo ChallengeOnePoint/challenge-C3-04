@@ -5,6 +5,8 @@ export default class Session {
     this.onError = this.onError.bind(this);
     this.onHello = this.onHello.bind(this);
     this.onCreate = this.onCreate.bind(this);
+    this.onTake = this.onTake.bind(this);
+    this.onRelease = this.onRelease.bind(this);
 
     let {address} = socket.handshake;
 
@@ -17,6 +19,8 @@ export default class Session {
     this.socket.on('error', this.onError);
     this.socket.on('hello', this.onHello);
     this.socket.on('create', this.onCreate);
+    this.socket.on('take', this.onTake);
+    this.socket.on('release', this.onRelease);
 
     console.log(this.name, '-', 'new connection');
   }
@@ -39,6 +43,7 @@ export default class Session {
     this.server.io.sockets.emit('login', {email: data.email});
   }
   onCreate() {
+    console.log(this.name, '-', 'create post it');
     let postIt = {
       id: this.server.nextId(),
       title: '',
@@ -49,6 +54,31 @@ export default class Session {
     this.server.postIts.push(postIt);
 
     this.server.io.sockets.emit('update', postIt);
+  }
+  onTake(data) {
+    let postIt = this.server.getPostId(data.id);
+
+    if (postIt && !postIt.takenBy) {
+      console.log(this.name, '-', 'take post it', postIt.title);
+      postIt.takenBy = this.email;
+
+      this.server.io.sockets.emit('take', {
+        postItId: postIt.id,
+        takenBy: this.email
+      });
+    }
+  }
+  onRelease(data) {
+    let postIt = this.server.getPostId(data.id);
+
+    if (postIt && postIt.takenBy) {
+      console.log(this.name, '-', 'release post it', postIt.title);
+      postIt.takenBy = null;
+
+      this.server.io.sockets.emit('release', {
+        postItId: postIt.id
+      });
+    }
   }
   onClose() {
     console.log(this.name, '-', 'connection closed');

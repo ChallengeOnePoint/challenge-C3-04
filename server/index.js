@@ -12,6 +12,15 @@ let serverData = {
   sessions: [],
   postIts: [],
   io: io,
+  getPostIt: id => {
+    for (let i = 0, postIt; postIt = serverData.postIts[i]; i += 1) {
+      if (postIt.id === id) {
+        return postIt;
+      }
+    }
+
+    return null;
+  },
   nextId: () => postIdCursor++
 };
 
