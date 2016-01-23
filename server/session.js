@@ -45,7 +45,7 @@ export default class Session {
       users: users
     });
 
-    this.avatar = gravatar.url(data.email, {s: '100'});
+    this.avatar = gravatar.url(data.email, {s: '80'});
     this.email = data.email;
 
     // then broadcast login
@@ -54,9 +54,14 @@ export default class Session {
       avatar: this.avatar
     });
   }
-  onCreate() {
+  onCreate(data) {
     console.log(this.name, '-', 'create post it');
+    data = data || {};
+    
     let postIt = {
+      color: data.color || 'lightgrey',
+      x: data.x || 0,
+      y: data.y || 0,
       id: this.server.nextId(),
       title: '',
       description: '',
@@ -109,7 +114,7 @@ export default class Session {
       console.error(this.name, '-', 'post it already taken by : ',
         postIt.takenBy);
     } else if (!postIt) {
-      console.error(this.name, '-', 'post id does not exists : ', postIt.id);
+      console.error(this.name, '-', 'post id does not exists : ', data.id);
     }
   }
   onClose() {
@@ -121,6 +126,12 @@ export default class Session {
     this.dispose();
   }
   dispose() {
+    let postIt = this.server.getPostIt(this.email);
+
+    if (postIt) {
+      postIt.takenBy = null;
+    }
+
     let index = this.server.sessions.indexOf(this);
 
     if (index !== -1) {
