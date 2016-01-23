@@ -4,6 +4,7 @@ export default class Session {
     this.onClose = this.onClose.bind(this);
     this.onError = this.onError.bind(this);
     this.onHello = this.onHello.bind(this);
+    this.onCreate = this.onCreate.bind(this);
 
     let {address} = socket.handshake;
 
@@ -15,6 +16,7 @@ export default class Session {
     this.socket.on('disconnect', this.onClose);
     this.socket.on('error', this.onError);
     this.socket.on('hello', this.onHello);
+    this.socket.on('create', this.onCreate);
 
     console.log(this.name, '-', 'new connection');
   }
@@ -35,6 +37,18 @@ export default class Session {
 
     // then broadcast login
     this.server.io.sockets.emit('login', {email: data.email});
+  }
+  onCreate() {
+    let postIt = {
+      id: this.server.nextId(),
+      title: '',
+      description: '',
+      takenBy: this.email
+    };
+
+    this.server.postIts.push(postIt);
+
+    this.server.io.sockets.emit('update', postIt);
   }
   onClose() {
     console.log(this.name, '-', 'connection closed');

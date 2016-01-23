@@ -7,10 +7,12 @@ import Session from './session';
 
 server.listen(3000);
 
+let postIdCursor = 0;
 let serverData = {
   sessions: [],
   postIts: [],
-  io: io
+  io: io,
+  nextId: () => postIdCursor++
 };
 
 app.use(express.static('public'));
