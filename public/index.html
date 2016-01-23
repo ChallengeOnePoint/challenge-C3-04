@@ -16,6 +16,7 @@
         </li>
       </ul>
     </div>
+
     <div class="popup-email" ng-if="!app.user">
       <form class="pure-form email-form">
         <div class="email-label">E-mail</div>
@@ -23,6 +24,15 @@
         <button class="pure-button pure-button-primary login-button" ng-click="app.login()">Login</button>
       </form>
     </div>
+
+    <ul class="user-list ng-cloak" ng-if="app.user">
+      <li class="user-list-header">Logged users</li>
+      <li class="user-list-item" ng-repeat="user in app.users">
+        <img class="user-avatar" ng-src="{{ user.avatar }}" alt="{{ user.email }}">
+        <span class="user-email" ng-bind="user.email"></span>
+      </li>
+    </ul>
+
     <post-it
       ng-repeat="postIt in app.postIts track by $index">
     </post-it>
@@ -30,5 +40,15 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular.min.js"></script>
     <script src="/application.js"></script>
+
+    <script type="text/ng-template" id="post-it.html">
+      <div class="post-it" movable>
+        <i class="fa fa-pencil-square-o" ng-click="edit()"  ng-show="!isEditing"></i>
+        <i class="fa fa-floppy-o" ng-show="isEditing" ng-click="isEditing = !isEditing;"></i>
+        <h2 ng-bind="title"></h2>
+        <p ng-bind="description" ng-show="!isEditing"></p>
+        <textarea ng-model="description" ng-show="isEditing"></textarea>
+      </div>
+    </script>
   </body>
 </html>

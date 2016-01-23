@@ -2,10 +2,6 @@
 
 var socket = io.connect('http://localhost:3000');
 
-socket.on('connect', function () {
-  socket.emit('hello', { email: 'jean.dupouy@rednet.io' });
-});
-
 angular
   .module('app', [])
   .run(setupSocketIo)
@@ -105,8 +101,7 @@ function userFactory () {
 }
 
 function AppController (PostIt, User) {
-  // this.postIts = PostIt.postIts;
-  this.postIts = [1, 2];
+  this.postIts = PostIt.postIts;
   this.users   = User.users;
 }
 
@@ -120,15 +115,7 @@ function postIt() {
   return {
     restrict: 'E',
     scope: {},
-    template: [
-      '<div class="post-it" movable>',
-        '<i class="fa fa-pencil-square-o" ng-click="edit()"  ng-show="!isEditing"></i>',
-        '<i class="fa fa-floppy-o" ng-show="isEditing" ng-click="isEditing = !isEditing;"></i>',
-        '<h2 ng-bind="title"></h2>',
-        '<p ng-bind="description" ng-show="!isEditing"></p>',
-        '<textarea ng-model="description" ng-show="isEditing"></textarea>',
-      '</div>'
-    ].join(''),
+    template: 'post-it.html',
     controller: function PostItController($scope, $element, $attrs) {
       $scope.title = 'Totoa';
       $scope.description = 'The current description';
