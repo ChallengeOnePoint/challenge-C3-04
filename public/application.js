@@ -11,7 +11,7 @@ angular
   .directive('postIt', postIt)
   .directive('movable', movable);
 
-function setupSocketIo (PostIt, User) {
+function setupSocketIo ($rootScope, PostIt, User) {
   socket.on('take', takePostIt);
   socket.on('release', releasePostIt);
   socket.on('update', updatePostIt);
@@ -20,15 +20,21 @@ function setupSocketIo (PostIt, User) {
   socket.on('logout', User.logout);
 
   function takePostIt (postIt) {
-    PostIt.take(postIt, true);
+    $rootScope.$evalAsync(function () {
+      PostIt.take(postIt, true);
+    });
   }
 
   function releasePostIt (postIt) {
-    PostIt.release(postIt, true);
+    $rootScope.$evalAsync(function () {
+      PostIt.release(postIt, true);
+    });
   }
 
   function updatePostIt (postIt) {
-    PostIt.update(postIt, true);
+    $rootScope.$evalAsync(function () {
+      PostIt.update(postIt, true);
+    });
   }
 
   function load (data) {
@@ -58,7 +64,7 @@ function postItFactory () {
   }
 
   function take (postIt, isRemote) {
-    postIts[postIt.id].taken = true;
+    update(postIt);
 
     if (!isRemote) {
       socket.emit('take', postIt);
@@ -66,7 +72,7 @@ function postItFactory () {
   }
 
   function release (postIt, isRemote) {
-    delete postIts[postIt.id].taken;
+    update(postIt);
 
     if (!isRemote) {
       socket.emit('release', postIt);
@@ -103,7 +109,7 @@ function userFactory () {
 function AppController (PostIt, User) {
   this.postIts = PostIt.postIts;
   this.users   = User.users;
-  this.PostIt = PostIt;
+  this.PostIt  = PostIt;
 }
 
 AppController.prototype.login = function () {
