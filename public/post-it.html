@@ -1,0 +1,7 @@
+<div class="post-it" movable>
+  <i class="fa fa-pencil-square-o" ng-click="edit()"  ng-show="!isEditing"></i>
+  <i class="fa fa-floppy-o" ng-show="isEditing" ng-click="isEditing = !isEditing;"></i>
+  <h2 ng-bind="title"></h2>
+  <p ng-bind="description" ng-show="!isEditing"></p>
+  <textarea ng-model="description" ng-show="isEditing"></textarea>
+</div>
