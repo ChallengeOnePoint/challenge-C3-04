@@ -9,5 +9,11 @@
   });
   socket.on('login', function (data) {
     console.log('login', data);
+
+    socket.emit('create');
+  });
+
+  socket.on('update', function (data) {
+    console.log('update', data);
   });
 </script>
